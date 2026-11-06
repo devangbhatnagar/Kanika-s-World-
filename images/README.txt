@@ -1,0 +1,1 @@
+Add your real photographs here as photo1.jpg through photo15.jpg. Do not rename the placeholder SVGs; they are visual guides only.

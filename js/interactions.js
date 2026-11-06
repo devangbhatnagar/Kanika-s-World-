@@ -1,0 +1,19 @@
+import {memoryContent} from './memories.js';
+import {festivalPanel,showLetter} from './festivals.js';
+import {sparkle} from './audio.js';
+export function bindInteractions(state){
+ const modal=document.querySelector('#storyModal'),close=()=>modal.classList.add('hidden');
+ document.querySelectorAll('.close').forEach(b=>b.addEventListener('click',()=>{modal.classList.add('hidden');document.querySelector('#wishModal').classList.add('hidden');document.querySelector('#helpPanel').classList.add('hidden')}));
+ document.querySelector('#modalContinue').onclick=close;
+ function show(title,icon,kicker,text,extra=''){modal.querySelector('.modal-card').classList.remove('gallery-modal');document.querySelector('#modalContinue').textContent='Back to our gali →';document.querySelector('#modalIcon').textContent=icon;document.querySelector('#modalTitle').textContent=title;document.querySelector('#modalKicker').textContent=kicker;document.querySelector('#modalText').textContent=text;document.querySelector('#modalExtra').innerHTML=extra;modal.classList.remove('hidden');sparkle()}
+ function discover(loc){if(loc.unlocked)return;loc.unlocked=true;state.found++;state.updateProgress();let m=memoryContent(loc.index);let extra=loc.index===8?'<button class="gold-btn" id="openWish">Make a wish & release lantern ✨</button>':loc.index===9?'<button class="gold-btn" id="letterFromFinal">Read the letter from Devang</button>':'';show(m.title,m.icon,`DISCOVERY ${state.found} OF 10 · ${m.kicker}`,m.text,extra);if(loc.index===8)setTimeout(()=>{let b=document.querySelector('#openWish');if(b)b.onclick=()=>{close();document.querySelector('#wishModal').classList.remove('hidden')}},0);if(loc.index===9)setTimeout(()=>{let b=document.querySelector('#letterFromFinal');if(b)b.onclick=()=>show("A letter from Devang","💌","JUST FOR YOU",showLetter())},0)}
+ function nearby(){let p=state.chars[0].position,nearest=null,dist=99;state.locations.forEach(l=>{let d=Math.hypot(p.x-l.x,p.z-l.z);if(d<dist){dist=d;nearest=l}});if(nearest&&dist<3.2){discover(nearest);return}let diya=state.diyas.find(d=>!d.lit&&Math.hypot(p.x-d.g.position.x,p.z-d.g.position.z)<2.3);if(diya){diya.lit=true;diya.flame.material.color.set(0xffe18b);diya.l.position.y=.3;state.lit++;sparkle();if(state.lit>=7&&!state.blessed){state.blessed=true;show("A little blessing","🪔","SEVEN DIYAS, SEVEN WISHES","Har diya aapki zindagi mein ek nayi khushi lekar aaye. May every little light bring you hope, warmth and a reason to smile.");}else show("A diya is glowing","🪔","A LITTLE LIGHT","One more warm little light for our gali. Keep lighting them — a special blessing is waiting after seven.");return}
+ show("Keep exploring!","✨","THE GALI IS FULL OF SURPRISES","Walk towards one of the glowing golden markers. When you're close, tap Explore nearby to unlock its little story.") }
+ document.querySelector('#interactBtn').onclick=nearby;
+ document.querySelector('#helpBtn').onclick=()=>document.querySelector('#helpPanel').classList.remove('hidden');
+ document.querySelector('#wishModal .close').onclick=()=>document.querySelector('#wishModal').classList.add('hidden');
+ document.querySelector('#releaseWish').onclick=()=>{let v=document.querySelector('#wishInput').value.trim();if(!v){document.querySelector('#wishThanks').textContent="Write a little wish first ✨";return}localStorage.setItem('kanika-private-wish',v);document.querySelector('#wishThanks').textContent="Your wish is on its way. May it find its way to the stars. 🏮";state.releaseLantern();sparkle()};
+ document.querySelector('#openLetter').onclick=()=>show("A letter from Devang","💌","A LITTLE NOTE, FROM ME",showLetter());
+ document.querySelector('#festivalOpen')?.addEventListener('click',()=>show("Five days of wishes","🪔","A FESTIVE GIFT", "Each day has its own wish, written just for you.",festivalPanel()));
+ return {nearby,show};
+}
