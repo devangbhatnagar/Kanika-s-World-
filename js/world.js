@@ -1,5 +1,5 @@
-import * as THREE from '../node_modules/three/build/three.module.js';
-import {makeCharacter} from './characters.js';
+import * as THREE from '../node_modules/three/build/three.module.js?v=joystick-20261107e';
+import {makeCharacter} from './characters.js?v=joystick-20261107e';
 export function createWorld(renderer, lowPower = false){
  const scene=new THREE.Scene();scene.background=new THREE.Color(0x171a3a);scene.fog=new THREE.Fog(0x171a3a,22,65);
  const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,120);camera.position.set(0,8,12);

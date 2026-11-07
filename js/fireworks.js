@@ -1,4 +1,4 @@
-import {fireworkSound} from './audio.js';
+import {fireworkSound} from './audio.js?v=joystick-20261107e';
 
 export function startFireworks(canvas,onGreeting){
  const context=canvas.getContext('2d');

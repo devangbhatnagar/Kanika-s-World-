@@ -1,2 +1,2 @@
-import * as THREE from '../node_modules/three/build/three.module.js';
+import * as THREE from '../node_modules/three/build/three.module.js?v=joystick-20261107e';
 export function followCamera(camera,target,controls,dt){const targetPos=target.position ?? target;const distance=10,angle=controls.yaw;const desired=new THREE.Vector3(targetPos.x+Math.sin(angle)*distance*Math.cos(controls.pitch),targetPos.y+5.5,targetPos.z+Math.cos(angle)*distance*Math.cos(controls.pitch));camera.position.lerp(desired,1-Math.pow(.1,dt));const lookTarget=camera.userData.followTarget??(camera.userData.followTarget=targetPos.clone());lookTarget.lerp(targetPos,1-Math.pow(.25,dt));camera.lookAt(lookTarget.x,lookTarget.y+1.2,lookTarget.z);}

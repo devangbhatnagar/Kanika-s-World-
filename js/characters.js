@@ -1,4 +1,4 @@
-import * as THREE from '../node_modules/three/build/three.module.js';
+import * as THREE from '../node_modules/three/build/three.module.js?v=joystick-20261107e';
 export function makeCharacter(name,mainColor,skin=0xb97855){
  const g=new THREE.Group();g.name=name;
  const mat=(c)=>new THREE.MeshStandardMaterial({color:c,roughness:.78});

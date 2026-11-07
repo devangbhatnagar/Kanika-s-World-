@@ -1,6 +1,6 @@
-import {memoryContent} from './memories.js';
-import {festivalPanel,showLetter} from './festivals.js';
-import {sparkle} from './audio.js';
+import {memoryContent} from './memories.js?v=joystick-20261107e';
+import {festivalPanel,showLetter} from './festivals.js?v=joystick-20261107e';
+import {sparkle} from './audio.js?v=joystick-20261107e';
 export function bindInteractions(state){
  const modal=document.querySelector('#storyModal'),close=()=>modal.classList.add('hidden');
  document.querySelectorAll('.close').forEach(b=>b.addEventListener('click',()=>{modal.classList.add('hidden');document.querySelector('#wishModal').classList.add('hidden');document.querySelector('#helpPanel').classList.add('hidden')}));
